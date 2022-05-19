@@ -9,6 +9,7 @@ def search(title: str):
     response = requests.get(BASE_URL + f"/manga?title={encoded}").json() # gets response in JSON
     results = response["data"] # gets only the data 
 
+    print(f"{'-'*25}\nRESULTS: ")
     ids = []
     for i, result in enumerate(results): # iterates through each result
         ids.append(result["id"]) # adds id to ids for easy access
@@ -19,11 +20,13 @@ def search(title: str):
 
 # gets details about a title with its id
 def get_details(id: str):
-    print(f"https://mangadex.org/title/{id}") # prints mangadex page
+    print('-'*25)
+    print(f"URL: https://mangadex.org/title/{id}\n") # prints mangadex page
     response = requests.get(f"{BASE_URL}/manga/{id}?includes[]=cover_art").json() # Gets response in JSON
     results = response['data'] # gets only the data
 
-    print("description:\n" + results['attributes']["description"]['en']) # prints description
+    print("Description:\n" + results['attributes']["description"]['en']) # prints description
+    print('-'*25)
 
     # gets cover art
     COVER_URL = "https://uploads.mangadex.org/covers/"
@@ -36,4 +39,5 @@ def get_details(id: str):
 
 
 ids = search(input("What would you like to search?\n"))
+print(f"{'-'*25}")
 get_details(ids[int(input("Which one would you like to learn more about? (enter number):\n"))-1])
